@@ -1,0 +1,786 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "api/class.proto",
+    "version": "version not set"
+  },
+  "tags": [
+    {
+      "name": "ClassService"
+    },
+    {
+      "name": "HelloService"
+    },
+    {
+      "name": "KnowledgePointService"
+    },
+    {
+      "name": "StudentProfileService"
+    }
+  ],
+  "consumes": [
+    "application/json"
+  ],
+  "produces": [
+    "application/json"
+  ],
+  "paths": {
+    "/api/v1/classes": {
+      "get": {
+        "summary": "获取班级列表",
+        "operationId": "ClassService_ListClasses",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListClassesResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ClassService"
+        ]
+      },
+      "post": {
+        "summary": "创建班级",
+        "operationId": "ClassService_CreateClass",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiClass"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiCreateClassRequest"
+            }
+          }
+        ],
+        "tags": [
+          "ClassService"
+        ]
+      }
+    },
+    "/api/v1/classes/{classId}": {
+      "get": {
+        "summary": "获取班级详情",
+        "operationId": "ClassService_GetClass",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiClass"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ClassService"
+        ]
+      },
+      "delete": {
+        "summary": "删除班级",
+        "operationId": "ClassService_DeleteClass",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiEmpty"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "ClassService"
+        ]
+      },
+      "put": {
+        "summary": "更新班级信息",
+        "operationId": "ClassService_UpdateClass",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiClass"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/ClassServiceUpdateClassBody"
+            }
+          }
+        ],
+        "tags": [
+          "ClassService"
+        ]
+      }
+    },
+    "/api/v1/classes/{classId}/students": {
+      "get": {
+        "summary": "获取班级内的学生列表",
+        "operationId": "ClassService_ListClassStudents",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListClassStudentsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "classId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "ClassService"
+        ]
+      }
+    },
+    "/api/v1/hello": {
+      "post": {
+        "operationId": "HelloService_SayHello",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiHelloResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiHelloRequest"
+            }
+          }
+        ],
+        "tags": [
+          "HelloService"
+        ]
+      }
+    },
+    "/api/v1/match": {
+      "post": {
+        "operationId": "KnowledgePointService_MatchQuestion",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiMatchResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/apiMatchRequest"
+            }
+          }
+        ],
+        "tags": [
+          "KnowledgePointService"
+        ]
+      }
+    },
+    "/api/v1/students/{studentId}/exams": {
+      "get": {
+        "summary": "获取学生考试成绩列表",
+        "operationId": "StudentProfileService_ListStudentExams",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiListStudentExamsResponse"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "pageSize",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          },
+          {
+            "name": "pageNumber",
+            "in": "query",
+            "required": false,
+            "type": "integer",
+            "format": "int32"
+          }
+        ],
+        "tags": [
+          "StudentProfileService"
+        ]
+      }
+    },
+    "/api/v1/students/{studentId}/profile": {
+      "get": {
+        "summary": "获取学生档案详情\r\n如果档案不存在或已过期，将自动触发AI生成",
+        "operationId": "StudentProfileService_GetStudentProfile",
+        "responses": {
+          "200": {
+            "description": "A successful response.",
+            "schema": {
+              "$ref": "#/definitions/apiStudentProfile"
+            }
+          },
+          "default": {
+            "description": "An unexpected error response.",
+            "schema": {
+              "$ref": "#/definitions/rpcStatus"
+            }
+          }
+        },
+        "parameters": [
+          {
+            "name": "studentId",
+            "in": "path",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "generateOptions.forceRegenerate",
+            "description": "是否强制重新生成",
+            "in": "query",
+            "required": false,
+            "type": "boolean"
+          },
+          {
+            "name": "generateOptions.startDate",
+            "description": "指定分析的时间范围，如果不指定则使用系统默认范围\n\nISO 8601 格式",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          },
+          {
+            "name": "generateOptions.endDate",
+            "description": "ISO 8601 格式",
+            "in": "query",
+            "required": false,
+            "type": "string"
+          }
+        ],
+        "tags": [
+          "StudentProfileService"
+        ]
+      }
+    }
+  },
+  "definitions": {
+    "ClassServiceUpdateClassBody": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "students": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiStudent"
+          },
+          "title": "更新班级时可以同时更新学生列表"
+        }
+      }
+    },
+    "apiBasicInfo": {
+      "type": "object",
+      "properties": {
+        "gender": {
+          "type": "string"
+        },
+        "age": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "contact": {
+          "type": "string"
+        }
+      }
+    },
+    "apiClass": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "studentCount": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "createTime": {
+          "type": "string",
+          "title": "ISO 8601 格式的时间字符串"
+        }
+      },
+      "title": "数据模型"
+    },
+    "apiCreateClassRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        },
+        "students": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiStudent"
+          },
+          "title": "创建班级时可以同时添加学生"
+        }
+      },
+      "title": "请求消息"
+    },
+    "apiEmpty": {
+      "type": "object",
+      "title": "空消息"
+    },
+    "apiExamResult": {
+      "type": "object",
+      "properties": {
+        "examName": {
+          "type": "string",
+          "title": "考试名称"
+        },
+        "examDate": {
+          "type": "string",
+          "title": "考试日期"
+        },
+        "subjectScores": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiSubjectScore"
+          },
+          "title": "各科目成绩"
+        },
+        "totalScore": {
+          "type": "number",
+          "format": "float",
+          "title": "总分"
+        },
+        "classRank": {
+          "type": "integer",
+          "format": "int32",
+          "title": "班级排名"
+        },
+        "gradeRank": {
+          "type": "integer",
+          "format": "int32",
+          "title": "年级排名"
+        }
+      },
+      "title": "考试结果"
+    },
+    "apiHelloRequest": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string"
+        }
+      }
+    },
+    "apiHelloResponse": {
+      "type": "object",
+      "properties": {
+        "message": {
+          "type": "string"
+        }
+      }
+    },
+    "apiListClassStudentsResponse": {
+      "type": "object",
+      "properties": {
+        "students": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiStudent"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      }
+    },
+    "apiListClassesResponse": {
+      "type": "object",
+      "properties": {
+        "classes": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiClass"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "响应消息"
+    },
+    "apiListStudentExamsResponse": {
+      "type": "object",
+      "properties": {
+        "examResults": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiExamResult"
+          }
+        },
+        "total": {
+          "type": "integer",
+          "format": "int32"
+        }
+      },
+      "title": "响应消息"
+    },
+    "apiMatchRequest": {
+      "type": "object",
+      "properties": {
+        "mergedText": {
+          "type": "string"
+        },
+        "answer": {
+          "type": "string"
+        }
+      }
+    },
+    "apiMatchResponse": {
+      "type": "object",
+      "properties": {
+        "knowledgePointPred": {
+          "type": "string"
+        }
+      }
+    },
+    "apiProfileContent": {
+      "type": "object",
+      "properties": {
+        "basicSituation": {
+          "type": "string",
+          "title": "AI生成的基本情况描述文字"
+        },
+        "examHistory": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/apiExamResult"
+          },
+          "title": "历史考试记录"
+        }
+      },
+      "title": "档案内容"
+    },
+    "apiProfileGenerateOptions": {
+      "type": "object",
+      "properties": {
+        "forceRegenerate": {
+          "type": "boolean",
+          "title": "是否强制重新生成"
+        },
+        "startDate": {
+          "type": "string",
+          "description": "ISO 8601 格式",
+          "title": "指定分析的时间范围，如果不指定则使用系统默认范围"
+        },
+        "endDate": {
+          "type": "string",
+          "title": "ISO 8601 格式"
+        }
+      },
+      "title": "档案生成选项"
+    },
+    "apiProfileHeader": {
+      "type": "object",
+      "properties": {
+        "studentName": {
+          "type": "string"
+        },
+        "studentId": {
+          "type": "string"
+        },
+        "className": {
+          "type": "string"
+        },
+        "grade": {
+          "type": "string"
+        }
+      },
+      "title": "档案标题信息"
+    },
+    "apiProfileMetadata": {
+      "type": "object",
+      "properties": {
+        "generatedAt": {
+          "type": "string",
+          "description": "ISO 8601 格式",
+          "title": "AI生成时间"
+        },
+        "profileStartDate": {
+          "type": "string",
+          "description": "ISO 8601 格式",
+          "title": "档案覆盖的时间范围"
+        },
+        "profileEndDate": {
+          "type": "string",
+          "title": "ISO 8601 格式"
+        },
+        "status": {
+          "$ref": "#/definitions/apiProfileStatus",
+          "title": "档案状态"
+        }
+      },
+      "title": "档案元数据"
+    },
+    "apiProfileStatus": {
+      "type": "string",
+      "enum": [
+        "PROFILE_STATUS_UNSPECIFIED",
+        "PROFILE_STATUS_GENERATING",
+        "PROFILE_STATUS_READY",
+        "PROFILE_STATUS_FAILED"
+      ],
+      "default": "PROFILE_STATUS_UNSPECIFIED",
+      "title": "- PROFILE_STATUS_GENERATING: AI正在生成中\n - PROFILE_STATUS_READY: 档案已就绪\n - PROFILE_STATUS_FAILED: 生成失败"
+    },
+    "apiStudent": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string"
+        },
+        "name": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "basicInfo": {
+          "$ref": "#/definitions/apiBasicInfo"
+        }
+      }
+    },
+    "apiStudentProfile": {
+      "type": "object",
+      "properties": {
+        "id": {
+          "type": "string",
+          "title": "基本信息"
+        },
+        "name": {
+          "type": "string"
+        },
+        "avatar": {
+          "type": "string"
+        },
+        "profileHeader": {
+          "$ref": "#/definitions/apiProfileHeader",
+          "title": "个人档案标题"
+        },
+        "profileContent": {
+          "$ref": "#/definitions/apiProfileContent",
+          "title": "学生档案内容"
+        },
+        "metadata": {
+          "$ref": "#/definitions/apiProfileMetadata",
+          "title": "档案元数据"
+        }
+      },
+      "title": "数据模型"
+    },
+    "apiSubjectScore": {
+      "type": "object",
+      "properties": {
+        "subject": {
+          "type": "string",
+          "title": "科目名称"
+        },
+        "score": {
+          "type": "number",
+          "format": "float",
+          "title": "得分"
+        },
+        "classAverage": {
+          "type": "number",
+          "format": "float",
+          "title": "班级平均分"
+        },
+        "rank": {
+          "type": "integer",
+          "format": "int32",
+          "title": "排名"
+        }
+      },
+      "title": "科目成绩"
+    },
+    "protobufAny": {
+      "type": "object",
+      "properties": {
+        "@type": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": {}
+    },
+    "rpcStatus": {
+      "type": "object",
+      "properties": {
+        "code": {
+          "type": "integer",
+          "format": "int32"
+        },
+        "message": {
+          "type": "string"
+        },
+        "details": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "$ref": "#/definitions/protobufAny"
+          }
+        }
+      }
+    }
+  }
+}
