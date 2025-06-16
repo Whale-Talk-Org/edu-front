@@ -1,6 +1,10 @@
 import { useEffect, useState } from 'react';
 import { NavBar, Dropdown, List, DotLoading } from 'antd-mobile';
 import { sayHello } from '@/api/hello';
+import { listClassStudents } from '@/api/class';
+import styles from './ClassHome.module.css';
+import arrowIcon from './img/arrow.png';
+import { mockStudentsClassA, mockStudentsClassB } from './mockStudents';
 
 const classOptions = [
   { label: '初一(2)班 英语', value: 'classA' },
@@ -18,73 +22,40 @@ interface Student {
 
 export default function ClassHome() {
   const [classId, setClassId] = useState('classA');
-  const [loading] = useState(false);
-  const [students] = useState<Student[]>([
-    {
-      id: '1',
-      name: '李明',
-      avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-      avgScore: 92,
-      maxScore: 96,
-      minScore: 85,
-    },
-    {
-      id: '2',
-      name: '李明明明明',
-      avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-      avgScore: 92,
-      maxScore: 96,
-      minScore: 85,
-    },
-    {
-      id: '3',
-      name: '陈藤藤',
-      avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-      avgScore: 92,
-      maxScore: 96,
-      minScore: 85,
-    },
-    {
-        id: '4',
-        name: '李明',
-        avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-        avgScore: 92,
-        maxScore: 96,
-        minScore: 85,
-    },
-    {
-        id: '5',
-        name: '李明',
-        avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-        avgScore: 92,
-        maxScore: 96,
-        minScore: 85,
-    },
-    {
-        id: '6',
-        name: '卢胜蓝',
-        avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-        avgScore: 92,
-        maxScore: 96,
-        minScore: 85,
-    },
-    {
-        id: '7',
-        name: '卢胜蓝',
-        avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-        avgScore: 92,
-        maxScore: 96,
-        minScore: 85,
-    },
-    {
-        id: '8',
-        name: '卢胜蓝',
-        avatar: 'https://pic.rmb.bdstatic.com/bjh/news/6c7ca0a23f49ebcf2305ff4567693ac4.png',
-        avgScore: 92,
-        maxScore: 96,
-        minScore: 85,
-    },
-  ]);
+  const [loading, setLoading] = useState(false);
+  const [students, setStudents] = useState<Student[]>(
+    // 初始加载 ClassA 的 Mock 数据
+    mockStudentsClassA
+  );
+  // 移除 isDropdownOpen 状态，Dropdown 默认点击后会收起
+
+  // 提取的获取学生数据函数
+  const fetchStudentsData = async (currentClassId: string) => {
+    setLoading(true);
+    try {
+      // **TODO: 服务开通后，取消注释以下代码进行真实API调用**
+      // const response = await listClassStudents(currentClassId, { pageSize: 10, pageNumber: 1 });
+      // console.log('班级学生接口返回:', response);
+      // setStudents(response.data.students); // 假设返回数据结构是 response.data.students
+
+      // 服务未通时，使用 Mock 数据
+      if (currentClassId === 'classA') {
+        setStudents(mockStudentsClassA);
+      } else if (currentClassId === 'classB') {
+        setStudents(mockStudentsClassB);
+      }
+    } catch (error) {
+      console.error('获取班级学生失败:', error);
+      // 错误时也回退到 Mock 数据
+      if (currentClassId === 'classA') {
+        setStudents(mockStudentsClassA);
+      } else if (currentClassId === 'classB') {
+        setStudents(mockStudentsClassB);
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
     const testApi = async () => {
@@ -97,14 +68,31 @@ export default function ClassHome() {
     };
 
     testApi();
-  }, []);
+
+    // 初始加载学生数据
+    fetchStudentsData(classId);
+  }, []); // 空依赖数组表示只在组件挂载时运行一次
+
+  // 当 classId 变化时重新获取学生数据
+  useEffect(() => {
+    fetchStudentsData(classId);
+  }, [classId]);
 
   return (
-    <div>
-      <NavBar
-        back={null}
-      >
-        <Dropdown>
+    <div className={styles.container}>
+      <NavBar back={null} className={styles.header}>
+        <Dropdown className={styles.myCustomDropdown}
+          closeOnMaskClick={true}
+          closeOnClickAway={true}
+          arrow={ // 箭头图片保留，但移除旋转逻辑，因为 Dropdown 默认会自动回弹
+            <img
+              src={arrowIcon}
+              alt="arrow"
+              style={{ width: '24px', height: '24px' }}
+              className={styles.dropdownArrow} // 仅保留基础样式
+            />
+          }
+        >
           <Dropdown.Item
             key="class"
             title={classOptions.find(opt => opt.value === classId)?.label || ''}
@@ -113,7 +101,10 @@ export default function ClassHome() {
               <Dropdown.Item
                 key={opt.value}
                 title={opt.label}
-                onClick={() => setClassId(opt.value)}
+                onClick={() => {
+                  setClassId(opt.value);
+                  // Dropdown 默认会在选择 Item 后自动关闭，无需额外操作
+                }}
               />
             ))}
           </Dropdown.Item>
@@ -123,23 +114,25 @@ export default function ClassHome() {
       {loading ? (
         <div style={{ textAlign: 'center', margin: 32 }}><DotLoading color="primary" /></div>
       ) : (
-        <List>
+        <div className={styles.list}>
           {students.map(student => (
-            <List.Item
-              key={student.id}
-              prefix={
-                <img
-                  src={student.avatar}
-                  style={{ borderRadius: 20, width: 40, height: 40 }}
-                  alt="avatar"
-                />
-              }
-              description={`平均分: ${student.avgScore} 最高分: ${student.maxScore} 最低分: ${student.minScore}`}
-            >
-              {student.name}
-            </List.Item>
+            <div className={styles.studentItem} key={student.id}>
+              <img
+                src={student.avatar}
+                className={styles.avatar}
+                alt="avatar"
+              />
+              <div className={styles.info}>
+                <div className={styles.name}>{student.name}</div>
+                <div className={styles.scores}>
+                  <span className={styles.scoreLabel}>平均分：{student.avgScore}</span>
+                  <span className={styles.scoreLabel}>最高分：{student.maxScore}</span>
+                  <span className={styles.scoreLabel}>最低分：{student.minScore}</span>
+                </div>
+              </div>
+            </div>
           ))}
-        </List>
+        </div>
       )}
 
     </div>

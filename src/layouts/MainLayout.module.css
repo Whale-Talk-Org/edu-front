@@ -1,0 +1,9 @@
+.tabItemText {
+    :global(.adm-tab-bar-item-title){
+  font-size: 12px !important;
+  line-height: 12px !important;
+}
+:global(.adm-tab-bar-item-title-with-icon){
+    margin-top: 0;
+}
+} 

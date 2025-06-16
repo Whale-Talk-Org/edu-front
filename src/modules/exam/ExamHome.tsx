@@ -79,66 +79,67 @@ export default function ExamHome() {
   // }, [classId]);
 
   return (
-    <div>
-      <NavBar
-        back={null}
-        right={
-          <SearchBar
-            placeholder="搜索"
-            style={{ '--background': 'transparent', width: 120 }}
-            onFocus={() => {/* 跳转或弹窗 */}}
-          />
-        }
-      >
-        <Dropdown>
-  <Dropdown.Item
-    key="class"
-    title={classOptions.find(opt => opt.value === classId)?.label || ''}
-  >
-    {classOptions.map(opt => (
-      <Dropdown.Item
-        key={opt.value}
-        title={opt.label}
-        onClick={() => setClassId(opt.value)}
-      />
-    ))}
-  </Dropdown.Item>
-</Dropdown>
-      </NavBar>
+//     <div>
+//       <NavBar
+//         back={null}
+//         right={
+//           <SearchBar
+//             placeholder="搜索"
+//             style={{ '--background': 'transparent', width: 120 }}
+//             onFocus={() => {/* 跳转或弹窗 */}}
+//           />
+//         }
+//       >
+//         <Dropdown>
+//   <Dropdown.Item
+//     key="class"
+//     title={classOptions.find(opt => opt.value === classId)?.label || ''}
+//   >
+//     {classOptions.map(opt => (
+//       <Dropdown.Item
+//         key={opt.value}
+//         title={opt.label}
+//         onClick={() => setClassId(opt.value)}
+//       />
+//     ))}
+//   </Dropdown.Item>
+// </Dropdown>
+//       </NavBar>
 
-      {loading ? (
-        <div style={{ textAlign: 'center', margin: 32 }}><DotLoading color="primary" /></div>
-      ) : (
-        <>
-          <Collapse activeKey={examOpen ? ['exam'] : []} onChange={keys => setExamOpen(keys.includes('exam'))}>
-            <Collapse.Panel key="exam" title="考试">
-              <List>
-                {exams.map(exam => (
-                  <List.Item
-                    key={exam.id}
-                    description={`班均：${exam.avgScore} 最高：${exam.maxScore} 最低：${exam.minScore}`}
-                    extra={exam.date}
-                    onClick={() => {/* 跳转详情 */}}
-                  >
-                    {exam.title}
-                  </List.Item>
-                ))}
-              </List>
-            </Collapse.Panel>
-          </Collapse>
-          <Collapse activeKey={hwOpen ? ['hw'] : []} onChange={keys => setHwOpen(keys.includes('hw'))}>
-            <Collapse.Panel key="hw" title="作业">
-              <List>
-                {homeworks.map(hw => (
-                  <List.Item key={hw.id} extra={hw.date}>
-                    {hw.title}
-                  </List.Item>
-                ))}
-              </List>
-            </Collapse.Panel>
-          </Collapse>
-        </>
-      )}
-    </div>
+//       {loading ? (
+//         <div style={{ textAlign: 'center', margin: 32 }}><DotLoading color="primary" /></div>
+//       ) : (
+//         <>
+//           <Collapse activeKey={examOpen ? ['exam'] : []} onChange={keys => setExamOpen(keys.includes('exam'))}>
+//             <Collapse.Panel key="exam" title="考试">
+//               <List>
+//                 {exams.map(exam => (
+//                   <List.Item
+//                     key={exam.id}
+//                     description={`班均：${exam.avgScore} 最高：${exam.maxScore} 最低：${exam.minScore}`}
+//                     extra={exam.date}
+//                     onClick={() => {/* 跳转详情 */}}
+//                   >
+//                     {exam.title}
+//                   </List.Item>
+//                 ))}
+//               </List>
+//             </Collapse.Panel>
+//           </Collapse>
+//           <Collapse activeKey={hwOpen ? ['hw'] : []} onChange={keys => setHwOpen(keys.includes('hw'))}>
+//             <Collapse.Panel key="hw" title="作业">
+//               <List>
+//                 {homeworks.map(hw => (
+//                   <List.Item key={hw.id} extra={hw.date}>
+//                     {hw.title}
+//                   </List.Item>
+//                 ))}
+//               </List>
+//             </Collapse.Panel>
+//           </Collapse>
+//         </>
+//       )}
+//     </div>
+<div>exam 模块</div>
   );
 }
