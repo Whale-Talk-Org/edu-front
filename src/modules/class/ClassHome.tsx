@@ -3,8 +3,9 @@ import { NavBar, Dropdown, List, DotLoading } from 'antd-mobile';
 import { sayHello } from '@/api/hello';
 import { listClassStudents } from '@/api/class';
 import styles from './ClassHome.module.css';
-import arrowIcon from './img/arrow.png';
+import arrowIcon from './img/arrow.svg';
 import { mockStudentsClassA, mockStudentsClassB } from './mockStudents';
+import { useNavigate } from 'react-router-dom';
 
 const classOptions = [
   { label: '初一(2)班 英语', value: 'classA' },
@@ -27,7 +28,8 @@ export default function ClassHome() {
     // 初始加载 ClassA 的 Mock 数据
     mockStudentsClassA
   );
-  // 移除 isDropdownOpen 状态，Dropdown 默认点击后会收起
+  const [activeDropdownKey, setActiveDropdownKey] = useState<string | null>(null);
+  const navigate = useNavigate();
 
   // 提取的获取学生数据函数
   const fetchStudentsData = async (currentClassId: string) => {
@@ -82,20 +84,21 @@ export default function ClassHome() {
     <div className={styles.container}>
       <NavBar back={null} className={styles.header}>
         <Dropdown className={styles.myCustomDropdown}
-          closeOnMaskClick={true}
-          closeOnClickAway={true}
-          arrow={ // 箭头图片保留，但移除旋转逻辑，因为 Dropdown 默认会自动回弹
+          activeKey={activeDropdownKey}
+          onChange={setActiveDropdownKey}
+          arrow={
             <img
               src={arrowIcon}
               alt="arrow"
               style={{ width: '24px', height: '24px' }}
-              className={styles.dropdownArrow} // 仅保留基础样式
+              className={`${styles.dropdownArrow} ${activeDropdownKey ? styles.dropdownArrowRotate : ''}`}
             />
           }
         >
           <Dropdown.Item
             key="class"
             title={classOptions.find(opt => opt.value === classId)?.label || ''}
+            onClick={() => setActiveDropdownKey(activeDropdownKey === 'class' ? null : 'class')}
           >
             {classOptions.map(opt => (
               <Dropdown.Item
@@ -103,7 +106,7 @@ export default function ClassHome() {
                 title={opt.label}
                 onClick={() => {
                   setClassId(opt.value);
-                  // Dropdown 默认会在选择 Item 后自动关闭，无需额外操作
+                  setActiveDropdownKey(null);
                 }}
               />
             ))}
@@ -116,7 +119,12 @@ export default function ClassHome() {
       ) : (
         <div className={styles.list}>
           {students.map(student => (
-            <div className={styles.studentItem} key={student.id}>
+            <div
+              className={styles.studentItem}
+              key={student.id}
+              onClick={() => navigate(`/student/${student.id}`)}
+              style={{ cursor: 'pointer' }}
+            >
               <img
                 src={student.avatar}
                 className={styles.avatar}

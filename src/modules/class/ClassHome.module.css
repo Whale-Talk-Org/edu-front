@@ -37,6 +37,9 @@
 
 .list {
   margin-top: 52px;
+  overflow-y: auto;
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE 10+ */
 }
 
 .studentItem {

@@ -1,2 +1,2 @@
-const Student = () => <div>Student 模块</div>;
-export default Student; 
+import StudentDetail from '../class/StudentDetail';
+export default StudentDetail; 

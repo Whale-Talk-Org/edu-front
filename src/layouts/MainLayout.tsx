@@ -32,7 +32,7 @@ export default function MainLayout() {
       <div style={{ height: 'calc(100vh - 50px)', overflowY: 'auto' }}>
         <Outlet />
       </div>
-      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', zIndex: 1000, backgroundColor: '#fff' }}>
+      <div style={{ position: 'fixed', bottom: 0, left: 0, width: '100%', zIndex: 1000, backgroundColor: '#fff',  borderTop: "0.5px solid #b2b2b2" }}>
         <TabBar activeKey={location.pathname} onChange={value => navigate(value)}>
           {tabs.map(item => (
             <TabBar.Item
